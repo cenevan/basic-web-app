@@ -21,26 +21,32 @@ export default function QueryProcessor(query?: string): string {
     return "ecen";
   }
 
+  //What is 91 plus 74?
   if (normalizedQuery.includes("plus")) {
-    return normalizedQuery
-      .split("plus")
-      .map((part) => part.trim())
-      .filter((part) => !isNaN(Number(part)))
-      .reduce((sum, num) => sum + Number(num), 0)
-      .toString();
+    const parts = normalizedQuery.split("plus");
+    if (parts.length === 2) {
+      const num1 = parseInt(parts[0].replace(/\D/g, ""), 10);
+      const num2 = parseInt(parts[1].replace(/\D/g, ""), 10);
+      if (!isNaN(num1) && !isNaN(num2)) {
+        return (num1 + num2).toString();
+      }
+    }
+    return "";
   }
 
+  //Which of the following numbers is the largest: 15, 82, 25?
   if (normalizedQuery.includes("largest")) {
-    const numbers = normalizedQuery
-      .split(" ")
-      .map((part) => part.trim())
-      .filter((part) => !isNaN(Number(part)))
-      .map(Number);
-    if (numbers.length > 0) {
-      return Math.max(...numbers).toString();
-    } else {
-      return "";
+    const parts = normalizedQuery.split(":");
+    if (parts.length === 2) {
+      const numbers = parts[1]
+        .split(",")
+        .map((num) => parseInt(num.replace(/\D/g, ""), 10))
+        .filter((num) => !isNaN(num));
+      if (numbers.length > 0) {
+        return Math.max(...numbers).toString();
+      }
     }
+    return "";
   }
 
   return "";
