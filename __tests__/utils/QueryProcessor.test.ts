@@ -31,4 +31,9 @@ describe("QueryProcessor", () => {
         const response: string = QueryProcessor(query);
         expect(response).toBe("ecen");
     })
+
+    test('should return empty string when query is missing', () => {
+        const response = QueryProcessor();
+        expect(response).toBe("");
+    })
 });

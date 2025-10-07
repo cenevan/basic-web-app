@@ -1,4 +1,8 @@
-export default function QueryProcessor(query: string): string {
+export default function QueryProcessor(query?: string): string {
+  if (typeof query !== "string" || query.length === 0) {
+    return "";
+  }
+
   const normalizedQuery = query.toLowerCase();
 
   if (normalizedQuery.includes("shakespeare")) {
@@ -10,7 +14,7 @@ export default function QueryProcessor(query: string): string {
   }
 
   if (normalizedQuery.includes("name")) {
-    return "Evan Cen";
+    return "ecen";
   }
 
   if (normalizedQuery.includes("andrew id")) {
