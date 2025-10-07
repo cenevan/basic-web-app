@@ -30,5 +30,18 @@ export default function QueryProcessor(query?: string): string {
       .toString();
   }
 
+  if (normalizedQuery.includes("largest")) {
+    const numbers = normalizedQuery
+      .split(" ")
+      .map((part) => part.trim())
+      .filter((part) => !isNaN(Number(part)))
+      .map(Number);
+    if (numbers.length > 0) {
+      return Math.max(...numbers).toString();
+    } else {
+      return "";
+    }
+  }
+
   return "";
 }
