@@ -21,5 +21,14 @@ export default function QueryProcessor(query?: string): string {
     return "ecen";
   }
 
+  if (normalizedQuery.includes("plus")) {
+    return normalizedQuery
+      .split("plus")
+      .map((part) => part.trim())
+      .filter((part) => !isNaN(Number(part)))
+      .reduce((sum, num) => sum + Number(num), 0)
+      .toString();
+  }
+
   return "";
 }
