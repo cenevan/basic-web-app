@@ -34,16 +34,17 @@ export default function QueryProcessor(query?: string): string {
     return "";
   }
 
-  //Which of the following numbers is the largest: 15, 82, 25?
+  // Which of the following numbers is the largest: 15, 82, 25?
   if (normalizedQuery.includes("largest")) {
-    const parts = normalizedQuery.split(":");
-    if (parts.length === 2) {
-      const numbers = parts[1]
-        .split(",")
-        .map((num) => parseInt(num.replace(/\D/g, ""), 10))
-        .filter((num) => !isNaN(num));
+    const matches = query.match(/-?\d+(?:\.\d+)?/g);
+    if (matches && matches.length > 0) {
+      const numbers = matches.map(Number).filter((num) => !Number.isNaN(num));
       if (numbers.length > 0) {
-        return Math.max(...numbers).toString();
+        const largest = numbers.reduce(
+          (max, current) => (current > max ? current : max),
+          Number.NEGATIVE_INFINITY
+        );
+        return Number.isFinite(largest) ? largest.toString() : "";
       }
     }
     return "";
